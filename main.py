@@ -1,18 +1,9 @@
 import logging
 import sys
-import yaml
 from server.server_pk9019 import PK9019Server, run
+from config.config import config
 
-def load_config(config_file='configuration.yml'):
-    """加载配置文件"""
-    try:
-        with open(config_file, 'r', encoding='utf-8') as f:
-            return yaml.safe_load(f)
-    except Exception as e:
-        print(f"加载配置文件失败: {str(e)}")
-        sys.exit(1)
-
-def setup_logging(config):
+def setup_logging():
     """配置日志系统"""
     log_config = config['logging']
     root_config = log_config['root']
@@ -43,14 +34,11 @@ def setup_logging(config):
         module_logger.setLevel(getattr(logging, level))
 
 def main():
-    # 加载配置
-    config = load_config()
-    
     # 设置日志
-    setup_logging(config)
+    setup_logging()
     
     # 记录启动信息
-    logging.info("PK9019服务器启动中...")
+    logging.info("PK9019服务启动中...")
     
     # 运行服务器
     try:
